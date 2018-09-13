@@ -1,0 +1,31 @@
+---
+
+- name: setup load-balancer tier
+  hosts: tag_AnsibleGroup_frontends
+  remote_user: ec2-user
+  become: yes
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: lb-tier, tags: [lbs, haproxy]}
+
+# Setup application servers tier
+
+- name: setup app tier
+  hosts: tag_AnsibleGroup_apps
+  remote_user: ec2-user
+  become: yes
+  gather_facts: false
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: app-tier, tags: [apps, tomcat]}
+
+# Setup database tier
+
+- name: setup database tier
+  become: yes
+  hosts: tag_AnsibleGroup_appdbs
+  remote_user: ec2-user
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
+

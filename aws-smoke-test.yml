@@ -1,0 +1,9 @@
+---
+- hosts: tag_AnsibleGroup_frontends
+  gather_facts: false
+  tasks:
+    - name: Smoke test
+      uri:
+        url: "http://{{ item }}" 
+      with_items:
+        - "{{ inventory_hostname }}" 

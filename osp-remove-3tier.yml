@@ -1,0 +1,21 @@
+---
+# Revese 3 Tier app deployment
+#
+#   Remove all repos
+#   Remove the base 3 tier app packages (haproxy, tomcat etc)
+- hosts: jumpbox
+  gather_facts: yes
+  roles:
+  - name: osp-facts
+
+- hosts: frontends
+  roles:
+    - cleaner
+
+- hosts: apps
+  roles:
+    - cleaner
+
+- hosts: appdbs
+  roles:
+    - cleaner
