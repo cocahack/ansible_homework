@@ -4,7 +4,7 @@
   tasks:
 
   - name: create temperary dir
-    file: path=~/{{item}} state=directory
+    file: path=/tmp/provision/{{item}} state=directory
     with_items:
       - bin
       - script
@@ -12,7 +12,7 @@
   - name: Download files for provision AWS
     get_url: 
       url: "{{ item }}"
-      dest: ~/script
+      dest: /tmp/provision/script
     with_items:
       - http://www.opentlc.com/download/ansible_bootcamp/scripts/common.sh
       - http://www.opentlc.com/download/ansible_bootcamp/scripts/jq-linux64
@@ -20,40 +20,37 @@
 
   - name: Change a shall scipit content
     replace:
-      path: "~/script/{{ item }}"
+      path: "/tmp/provision/script/{{ item }}"
       regexp: 'jq'
-      replace: '~/bin/jq'
+      replace: '/tmp/provision/bin/jq'
     with_items:
       - common.sh
       - order_svc.sh
 
   - name: Change file mode bits
     file:
-      path: "~/script/{{ item }}"
+      path: "/tmp/provision/script/{{ item }}"
       mode: u+x
     with_items:
       - jq-linux64
       - order_svc.sh
 
   - name: Move jq-linux64
-    command: mv ~/script/jq-linux64 ~/bin/jq
+    command: mv /tmp/provision/script/jq-linux64 /tmp/provision/bin/jq
 
   - name: Create credential.rc
     template:
       src: credential.rc.j2
-      dest: ~/script/credential.rc
+      dest: /tmp/provision/script/credential.rc
 
   - name: Provision AWS instances
-    shell: source ~/script/credential.rc; ~/order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y
+    shell: source /tmp/provision/script/credential.rc; /tmp/provision/script/order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y
 
   - name: Remove All files
     file:
-      path: ~/{{ item }}
+      path: /tmp/provision
       state: absent
     ignore_errors: yes
-    with_items:
-      - bin
-      - script
 
   - name: Wait while provisioning AWS instances
     pause:
