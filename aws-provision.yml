@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
-  gather_facts: false
+  gather_facts: False
+  become: True
+  become_method: sudo
   tasks:
 
   - name: create temperary dir
