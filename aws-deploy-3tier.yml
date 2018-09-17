@@ -1,5 +1,16 @@
 ---
-
+- localhost:
+  gather_facts: False
+  tasks:
+  - name: Add hosts
+    add_host:
+      name: "{{ item.name }}"
+      group: "{{ item.group }}"
+    with_items:
+      - { name: tag_AnsibleGroup_frontends, group: frontends }
+      - { name: tag_AnsibleGroup_apps, group: apps }
+      - { name: tag_AnsibleGroup_appdbs, group: appdbs }
+        
 - name: setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
   remote_user: ec2-user

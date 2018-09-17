@@ -1,0 +1,4 @@
+[tag_AnsibleGroup_bastions]
+
+[aws_bastion:children]
+tag_AnsibleGroup_bastions

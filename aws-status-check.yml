@@ -1,5 +1,5 @@
 
-- hosts: tag_instance_filter_three_tier_app_mcchae_pentalink_co_kr
+- hosts: aws_bastion
   gather_facts: false
   tasks:
   - name: Check the instances status
