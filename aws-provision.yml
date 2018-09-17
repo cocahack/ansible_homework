@@ -61,6 +61,6 @@
       state: absent
     ignore_errors: yes
 
-  - name: Wait while provisioning AWS instances
-    pause:
-      minutes: 30
+#  - name: Wait while provisioning AWS instances
+#    pause:
+#      minutes: 30
